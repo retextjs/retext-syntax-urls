@@ -66,6 +66,17 @@ Classify URLs, paths, and filenames as [SourceNode][source]s, which represent
 from [`retext-spell`][spell], [`retext-readability`][readability],
 [`retext-equality`][equality], and more.
 
+## Related
+
+*   [`retext-syntax-mentions`][syntax-mentions]
+    — Classify **@mentions** as syntax
+*   [`retext-spell`][spell]
+    — Check spelling
+*   [`retext-readability`][readability]
+    — Check readability
+*   [`retext-equality`][equality]
+    — Check possible insensitive, inconsiderate language
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
@@ -95,3 +106,5 @@ from [`retext-spell`][spell], [`retext-readability`][readability],
 [readability]: https://github.com/wooorm/retext-readability
 
 [equality]: https://github.com/wooorm/retext-equality
+
+[syntax-mentions]: https://github.com/wooorm/retext-syntax-mentions
