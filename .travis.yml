@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- '4.0'
+- '8.0'
+after_success: bash <(curl -s https://codecov.io/bash)
+deploy:
+  - provider: npm
+    email: tituswormer@gmail.com
+    api_key:
+      secure: GgNpgF7p2k4JSehTHgDneP42JRxd/Ylceiu6IAGGMzCPv4Vpvcya8/Yhc4rRB5vx4hS5Me1huD5XGbzrYRaIRlz6VPsZx2OpbrbbVvgFmblEGzKUzDfsGftLpOUi3wew1UwySdcN42vuMpGQXgH9EtucHwlf5rwZmVgMbKM88tFrj8MuhyxKLDPc5xTtWqh+V/QuPdkPZzYhEOTHCY2/pNpJc3Q3UXd7DnbGyNXJVgAVp/ZfrXUj6fLGI3j2AlvB4oxfnARsfyIfMtwt0En8nGmhhD2jY4ZoR0D8FH82tItEUC9/kaP/bwxepijW30XYrgWXZHbJh77VVEM/oDPA1wzFStJLqmptlokF6w6C+y0WGRDD50f2pSgnfsI2NNGcogekBxMPlO+z05sgQNZnbHHYVHykOj2s6fr/VfETq76coNs2d/tUnzr/Bu0KeBIcWvDuaLPWBg/klV3Iio09kSOBZkt155SiDB50/cpNV9WLIlTgAQU0U4M2M3yhT/gyy6U1ebWX8V0e60y8JiD+2tUfOtjzxcdJVW38yQUzoi5qwgP6/noqU2rEa2bHlgMRAUWAI5F0r4sTS0bLdMjv/z+CFrdzzm2DLYXCRTc9UqLsGlOJmikQRuWC67WkYfpFLV7TQ2kLF5oDD/Abl9i5/5JDmxL3hIvTV6FcmKP5HgY=
+    on:
+      tags: true
+      node: '8.0'
+  - provider: releases
+    api_key:
+      secure: xERekqGMYhpUat3U+Eh3BlCTUmGSHyxRfpUE+5QAZjehE/4CGWN43IzZF61sPqMmI8+nX4Xg2B0+bB8hgaPpCkIl7yxOim7Ld6MM7j3vqUMibFTPinpaBO6ykexVLOiZJpru0M6goKsdLSnZGhRhXwu7/979aBZUVc1pqmqy7tCaMBS6LU99pDFRTxY85By4BTCyVlrkVx/VuzFLhqJZPjRbZOfGJCHJmqeqqmY60GXWUvQgvjpffJHaic00afFGJOYlhDSkK2wv88N10LTfsLQIMi2MxZ8bhBeHbq3gTlkujTNi/Q9Pqor/rF7IkcSlauT1pfvh7MwPDv/e4jfQQCm5n0ToAxt9K0BvIDjVzVXzo+CJbdCq9K5TyuYgT7riI/zHUEjHTi5AMFLnrEAYZk5kEvQtlqLOnp5jVB3wg6BKorXIwgWlDuYbE26wirOV2iLmL5AQEM/qWEM58bvdA22st5y5IfOdm5T1eFXJCbDbNdrDdaA4Hsi4TFeG40A0W3ISgMNjHnR1c7gxJN1lnZe0wRLKXvceIOfjGYFvqEWA0LxRH5ViauvhJoILX9e9N4wRA2S2m0agyBIorwPVrUrc0Al1J8e+5MfUOcxXprI1BBMSCRikzCUymwQln98aGfgqqdc5qmUYVzg8GyeEsAmMQ1WDWovVW7lO8PKnUbs=
+    file:
+      - "retext-syntax-urls.js"
+      - "retext-syntax-urls.min.js"
+    on:
+      tags: true
+      node: '8.0'
