@@ -83,13 +83,13 @@ from [`retext-spell`][spell], [`retext-readability`][readability],
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/retext-syntax-urls.svg
+[travis-badge]: https://img.shields.io/travis/retextjs/retext-syntax-urls.svg
 
-[travis]: https://travis-ci.org/wooorm/retext-syntax-urls
+[travis]: https://travis-ci.org/retextjs/retext-syntax-urls
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/retext-syntax-urls.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-syntax-urls.svg
 
-[codecov]: https://codecov.io/github/wooorm/retext-syntax-urls
+[codecov]: https://codecov.io/github/retextjs/retext-syntax-urls
 
 [npm]: https://docs.npmjs.com/cli/install
 
@@ -97,14 +97,14 @@ from [`retext-spell`][spell], [`retext-readability`][readability],
 
 [author]: http://wooorm.com
 
-[retext]: https://github.com/wooorm/retext
+[retext]: https://github.com/retextjs/retext
 
-[source]: https://github.com/wooorm/nlcst#source
+[source]: https://github.com/syntax-tree/nlcst#source
 
-[spell]: https://github.com/wooorm/retext-spell
+[spell]: https://github.com/retextjs/retext-spell
 
-[readability]: https://github.com/wooorm/retext-readability
+[readability]: https://github.com/retextjs/retext-readability
 
-[equality]: https://github.com/wooorm/retext-equality
+[equality]: https://github.com/retextjs/retext-equality
 
-[syntax-mentions]: https://github.com/wooorm/retext-syntax-mentions
+[syntax-mentions]: https://github.com/retextjs/retext-syntax-mentions

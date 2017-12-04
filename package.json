@@ -11,8 +11,8 @@
     "path",
     "retext"
   ],
-  "repository": "wooorm/retext-syntax-urls",
-  "bugs": "https://github.com/wooorm/retext-syntax-urls/issues",
+  "repository": "retextjs/retext-syntax-urls",
+  "bugs": "https://github.com/retextjs/retext-syntax-urls/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
