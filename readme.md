@@ -69,13 +69,20 @@ from [`retext-spell`][spell], [`retext-readability`][readability],
 ## Related
 
 *   [`retext-syntax-mentions`][syntax-mentions]
-    — Classify **@mentions** as syntax
+    — Classify [**@mentions**](https://github.com/blog/821) as syntax
 *   [`retext-spell`][spell]
     — Check spelling
 *   [`retext-readability`][readability]
     — Check readability
 *   [`retext-equality`][equality]
     — Check possible insensitive, inconsiderate language
+
+## Contribute
+
+See [`contribute.md` in `retextjs/retext`][contribute] for ways to get started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
 
 ## License
 
@@ -108,3 +115,7 @@ from [`retext-spell`][spell], [`retext-readability`][readability],
 [equality]: https://github.com/retextjs/retext-equality
 
 [syntax-mentions]: https://github.com/retextjs/retext-syntax-mentions
+
+[contribute]: https://github.com/retextjs/retext/blob/master/contributing.md
+
+[coc]: https://github.com/retextjs/retext/blob/master/code-of-conduct.md
