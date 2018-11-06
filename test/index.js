@@ -30,8 +30,8 @@ test('retext-syntax-urls', function (t) {
         function () {
           var tree = position.parse('Check out ' + url + ' it’s awesome!');
           var node = tree.children[0].children[0].children[4];
-          assert.equal(node.type, 'SourceNode', 'is a source node');
-          assert.equal(node.value, url, 'should have the correct value');
+          assert.strictEqual(node.type, 'SourceNode', 'is a source node');
+          assert.strictEqual(node.value, url, 'should have the correct value');
         },
         url
       );
