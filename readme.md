@@ -1,4 +1,4 @@
-# retext-syntax-urls [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# retext-syntax-urls [![Build][build-badge]][build] [![Coverage][coverage-badge]][coverage] [![Downloads][downloads-badge]][downloads] [![Chat][chat-badge]][chat]
 
 Classify url-like values (`example.com`, `index.html`, `www.alpha.bravo`) as
 [syntax][source], not natural language, in [**retext**][retext].
@@ -91,13 +91,21 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/retextjs/retext-syntax-urls.svg
+[build-badge]: https://img.shields.io/travis/retextjs/retext-syntax-urls.svg
 
-[travis]: https://travis-ci.org/retextjs/retext-syntax-urls
+[build]: https://travis-ci.org/retextjs/retext-syntax-urls
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-syntax-urls.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-syntax-urls.svg
 
-[codecov]: https://codecov.io/github/retextjs/retext-syntax-urls
+[coverage]: https://codecov.io/github/retextjs/retext-syntax-urls
+
+[downloads-badge]: https://img.shields.io/npm/dm/retext-syntax-urls.svg
+
+[downloads]: https://www.npmjs.com/package/retext-syntax-urls
+
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified/retext
 
 [npm]: https://docs.npmjs.com/cli/install
 
