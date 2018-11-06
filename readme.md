@@ -16,21 +16,24 @@ npm install retext-syntax-urls
 Without `syntax-urls`:
 
 ```javascript
-var dictionary = require('dictionary-en-gb');
-var unified = require('unified');
-var english = require('retext-english');
-var stringify = require('retext-stringify');
-var spell = require('retext-spell');
-var urls = require('retext-syntax-urls');
-var report = require('vfile-reporter');
+var dictionary = require('dictionary-en-gb')
+var unified = require('unified')
+var english = require('retext-english')
+var stringify = require('retext-stringify')
+var spell = require('retext-spell')
+var urls = require('retext-syntax-urls')
+var report = require('vfile-reporter')
 
 unified()
   .use(english)
   .use(spell, dictionary)
   .use(stringify)
-  .process('Have you read readme.md? Check it out: www.example.com/readme.md', function (err, file) {
-    console.log(report(err || file));
-  });
+  .process(
+    'Have you read readme.md? Check it out: www.example.com/readme.md',
+    function(err, file) {
+      console.log(report(err || file))
+    }
+  )
 ```
 
 Yields:

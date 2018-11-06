@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 exports.correct = [
   'http://foo.com/blah_blah',
@@ -33,12 +33,12 @@ exports.correct = [
   'http://مثال.إختبار',
   'http://例子.测试',
   'http://उदाहरण.परीक्षा',
-  'http://-.~_!$&\'()*+,;=:%40:80%2f::::::@example.com',
+  "http://-.~_!$&'()*+,;=:%40:80%2f::::::@example.com",
   'http://1337.net',
   'http://a.b-c.de',
   'http://223.255.255.254',
 
-  /* These are pseudo-correct URLs. */
+  // These are pseudo-correct URLs.
   'foo.com/blah_blah',
   'foo.com/blah_blah/',
   'foo.com/blah_blah_(wikipedia)',
@@ -70,13 +70,13 @@ exports.correct = [
   'مثال.إختبار',
   '例子.测试',
   'उदाहरण.परीक्षा',
-  '-.~_!$&\'()*+,;=:%40:80%2f::::::@example.com',
+  "-.~_!$&'()*+,;=:%40:80%2f::::::@example.com",
   '1337.net',
   'a.b-c.de',
   '223.255.255.254',
 
-  /* These are technically incorrect, they are edge-cases that are fine
-   * being classified as url-like. */
+  // These are technically incorrect, they are edge-cases that are fine being
+  // classified as url-like.
   'ftps://foo.bar/',
   'http://-error-.invalid/',
   'http://a.b--c.de/',
@@ -91,7 +91,7 @@ exports.correct = [
   'http://www.foo.bar./',
   'http://10.1.1.1',
   'http://10.1.1.254'
-];
+]
 
 exports.incorrect = [
   '://',
@@ -113,8 +113,8 @@ exports.incorrect = [
   'rdar://1234',
   'h://test',
   'http://3628126748'
-];
+]
 
-/* These two are incorrect, but match a partial URL. */
+// These two are incorrect, but match a partial URL.
 // 'http://.www.foo.bar/',
 // 'http://.www.foo.bar./'
