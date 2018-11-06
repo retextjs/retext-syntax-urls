@@ -5,3 +5,4 @@ coverage/
 node_modules/
 retext-syntax-urls.js
 retext-syntax-urls.min.js
+yarn.lock
