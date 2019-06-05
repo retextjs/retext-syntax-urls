@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-- lts/boron
-- node
+  - lts/dubnium
+  - node
 after_success: bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: releases
@@ -9,7 +9,7 @@ deploy:
   api_key:
     secure: Tb3bpOh+GcSylJYJfoSQNQ3Fcpjmq1eeb4Af/qegIVPrIi597pbFkf6PpeLXDclBFIHIqmTM3K7MWY8GYqzjRZ9wX7AJjP7asYPYbDn3UhSjyCkEMYSaAEoMTDn0X0E+4gIt8JRiTsTAoQyeh24Pgmgc/GBIloaF/UyDXqehc0hHCN638uxhgDA+Lq0hij2S8z8sNksAXyxQHd23LpTpSkETqLSbsY5Y95zuoqHhT8TIyQjhoA0ZzxpAAjFMXDjuXVLweWn+dRumLCFBRYSgsTsWyWdEWiybT+gb5Km8tcwksbiw+vKr27CnAb4qh3R3bcuQkXAGMzQ4xGUO6ivLqZCDuZUMpyzanPuspZZ9zOlkYaNZm27L5ah3vEKD507Fjuqgl0ZGjnNjp4c7somj6rGccpzuPQS7gnQQ5qHJ9Gw9YMJoPzBv3FuXz5GnmQXap1JwJqpyyXhbrygOcXlgQy8xRrg9CAhs4mARnsiC3Tza9JFJJ0d/nL5+0D9LFbX6Qngaw2wPwBthsKmzAHdbrRFZ/LgibrsHOQtAfOJ74ficnIISoj27nlR8i0X+FCvY+O2z4pGbPkcYEs2xvlwawfVS3//syqoaGeLcER1eWoYCOLC1g8at2eJ3YlX/bnSqVV4AC/3hCH4Ed+ocGssl2VndpNa32L4jaXjABrHGxPM=
   file:
-    - "retext-syntax-urls.js"
-    - "retext-syntax-urls.min.js"
+    - 'retext-syntax-urls.js'
+    - 'retext-syntax-urls.min.js'
   on:
     tags: true
