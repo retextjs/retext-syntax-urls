@@ -1,10 +1,15 @@
 'use strict'
 
+var convert = require('unist-util-is/convert')
 var position = require('unist-util-position')
 var modifyChildren = require('unist-util-modify-children')
 var toString = require('nlcst-to-string')
 
 module.exports = urls
+
+var word = convert('WordNode')
+var punctuationOrSymbol = convert(['PunctuationNode', 'SymbolNode'])
+var applicable = convert(['WordNode', 'PunctuationNode', 'SymbolNode'])
 
 var slashes = /^\/{1,3}$/
 
@@ -20,23 +25,22 @@ function mergeLinks(child, index, parent) {
   var end = index
   var currentIndex = index
   var value
-  var type
   var initial
   var final
+  var prev
+  var next
 
-  if (!puncOrSymbol(child.type) || toString(child) !== '.') {
+  if (!punctuationOrSymbol(child) || toString(child) !== '.') {
     return
   }
 
-  // Find preceding word/punctuation. Stop before slashes, break after `www`.
-  while (siblings[start - 1]) {
-    type = siblings[start - 1].type
-
-    if (!applicable(type)) {
-      break
-    }
-
-    if (puncOrSymbol(type) && slashes.test(toString(siblings[start - 1]))) {
+  // Find preceding word/punctuation.
+  // Stop before slashes, break after `www`.
+  while ((prev = siblings[start - 1])) {
+    if (
+      !applicable(prev) ||
+      (punctuationOrSymbol(prev) && slashes.test(toString(prev)))
+    ) {
       break
     }
 
@@ -44,21 +48,17 @@ function mergeLinks(child, index, parent) {
 
     nodes.unshift(siblings[start])
 
-    if (type === 'WordNode' && toString(siblings[start]) === 'www') {
+    if (word(prev) && toString(siblings[start]) === 'www') {
       break
     }
   }
 
   // Find following word/punctuation.
-  while (siblings[end + 1]) {
-    type = siblings[end + 1].type
-
-    if (!applicable(type)) {
-      break
-    }
-
+  next = siblings[end + 1]
+  while (applicable(next)) {
     end++
-    nodes.push(siblings[end])
+    nodes.push(next)
+    next = siblings[end + 1]
   }
 
   // This full stop doesnt look like a link:  it’s either not followed, or not
@@ -68,30 +68,27 @@ function mergeLinks(child, index, parent) {
   }
 
   // 1-3 slashes.
-  if (
-    start > 0 &&
-    puncOrSymbol(siblings[start - 1].type) &&
-    slashes.test(toString(siblings[start - 1]))
-  ) {
+  prev = siblings[start - 1]
+  if (punctuationOrSymbol(prev) && slashes.test(toString(prev))) {
     start--
     nodes.unshift(siblings[start])
   }
 
   // URL protocol and colon.
+  prev = siblings[start - 1]
   if (
-    start > 2 &&
-    puncOrSymbol(siblings[start - 1].type) &&
-    toString(siblings[start - 1]) === ':' &&
-    siblings[start - 2].type === 'WordNode'
+    punctuationOrSymbol(prev) &&
+    toString(prev) === ':' &&
+    word(siblings[start - 2])
   ) {
-    nodes.unshift(siblings[start - 2], siblings[start - 1])
+    nodes.unshift(siblings[start - 2], prev)
     start -= 2
   }
 
   value = null
 
-  // Remove the last node if it's punctuation, unless it's `/` or `)`.
-  if (puncOrSymbol(siblings[end].type)) {
+  // Remove the last node if it’s punctuation, unless it’s `/` or `)`.
+  if (punctuationOrSymbol(siblings[end])) {
     value = toString(siblings[end])
 
     if (value !== '/' && value !== ')') {
@@ -111,20 +108,10 @@ function mergeLinks(child, index, parent) {
   // Remove the nodes and insert a SourceNode.
   siblings.splice(start, end - start + 1, child)
 
-  index++
-
-  // Ignore the following full-stop: it's not part of a link.
+  // Ignore the following full-stop: it’s not part of a link.
   if (value === '.') {
     index++
   }
 
-  return index
-}
-
-function applicable(type) {
-  return type === 'WordNode' || puncOrSymbol(type)
-}
-
-function puncOrSymbol(type) {
-  return type === 'PunctuationNode' || type === 'SymbolNode'
+  return index + 1
 }
