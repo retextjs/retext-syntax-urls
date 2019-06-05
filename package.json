@@ -1,15 +1,17 @@
 {
   "name": "retext-syntax-urls",
   "version": "1.0.1",
-  "description": "Classify url-like values (example.com, example.md, etc) as syntax",
+  "description": "retext plugin to classify url-like values (example.com, example.md, etc) as syntax",
   "license": "MIT",
   "keywords": [
+    "unified",
+    "retext",
+    "plugin",
     "syntax",
     "source",
     "url",
     "filename",
-    "path",
-    "retext"
+    "path"
   ],
   "repository": "retextjs/retext-syntax-urls",
   "bugs": "https://github.com/retextjs/retext-syntax-urls/issues",
