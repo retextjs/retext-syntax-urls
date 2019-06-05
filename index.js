@@ -12,7 +12,7 @@ function urls() {
   this.Parser.prototype.useFirst('tokenizeSentence', modifyChildren(mergeLinks))
 }
 
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 function mergeLinks(child, index, parent) {
   var siblings = parent.children
   var nodes = [child]
