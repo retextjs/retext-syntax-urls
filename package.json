@@ -1,11 +1,12 @@
 {
   "name": "retext-syntax-urls",
   "version": "1.0.2",
-  "description": "retext plugin to classify url-like values (example.com, example.md, etc) as syntax",
+  "description": "retext plugin to classify url-like values as syntax, not natural language",
   "license": "MIT",
   "keywords": [
     "unified",
     "retext",
+    "retext-plugin",
     "plugin",
     "syntax",
     "source",
