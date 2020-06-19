@@ -13,22 +13,20 @@ var urls = require('..')
 var lists = require('./lists')
 
 var position = retext().use(urls)
-var noPosition = retext()
-  .use(off)
-  .use(urls)
+var noPosition = retext().use(off).use(urls)
 
 function off() {
   this.Parser.prototype.position = false
 }
 
-test('retext-syntax-urls', function(t) {
-  t.test('Correct URLs', function(st) {
+test('retext-syntax-urls', function (t) {
+  t.test('Correct URLs', function (st) {
     lists.correct.forEach(check)
 
     st.end()
 
     function check(url) {
-      st.doesNotThrow(function() {
+      st.doesNotThrow(function () {
         var tree = position.parse('Check out ' + url + ' it’s awesome!')
         var node = tree.children[0].children[0].children[4]
         assert.strictEqual(node.type, 'SourceNode', 'is a source node')
@@ -37,13 +35,13 @@ test('retext-syntax-urls', function(t) {
     }
   })
 
-  t.test('Incorrect URLs', function(st) {
+  t.test('Incorrect URLs', function (st) {
     lists.incorrect.forEach(check)
 
     st.end()
 
     function check(url) {
-      st.doesNotThrow(function() {
+      st.doesNotThrow(function () {
         var tree = position.parse('Check out ' + url + ' it’s bad!')
 
         visit(tree, 'SourceNode', found)
@@ -58,12 +56,10 @@ test('retext-syntax-urls', function(t) {
   t.end()
 })
 
-test('fixtures', function(t) {
+test('fixtures', function (t) {
   var root = path.join('test', 'fixtures')
 
-  fs.readdirSync(root)
-    .filter(not(hidden))
-    .forEach(check)
+  fs.readdirSync(root).filter(not(hidden)).forEach(check)
 
   t.end()
 
@@ -71,8 +67,8 @@ test('fixtures', function(t) {
     var input = fs.readFileSync(path.join(root, name, 'input.txt'))
     var base = JSON.parse(fs.readFileSync(path.join(root, name, 'output.json')))
 
-    t.deepEqual(position.parse(input), base, name + ' w/ position')
-    t.deepEqual(
+    t.deepLooseEqual(position.parse(input), base, name + ' w/ position')
+    t.deepLooseEqual(
       noPosition.parse(input),
       clean(base, true),
       name + ' w/o position'

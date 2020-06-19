@@ -27,7 +27,7 @@ function mergeLinks(child, index, parent) {
   var value
   var initial
   var final
-  var prev
+  var previous
   var next
 
   if (!punctuationOrSymbol(child) || toString(child) !== '.') {
@@ -36,10 +36,10 @@ function mergeLinks(child, index, parent) {
 
   // Find preceding word/punctuation.
   // Stop before slashes, break after `www`.
-  while ((prev = siblings[start - 1])) {
+  while ((previous = siblings[start - 1])) {
     if (
-      !applicable(prev) ||
-      (punctuationOrSymbol(prev) && slashes.test(toString(prev)))
+      !applicable(previous) ||
+      (punctuationOrSymbol(previous) && slashes.test(toString(previous)))
     ) {
       break
     }
@@ -48,7 +48,7 @@ function mergeLinks(child, index, parent) {
 
     nodes.unshift(siblings[start])
 
-    if (word(prev) && toString(siblings[start]) === 'www') {
+    if (word(previous) && toString(siblings[start]) === 'www') {
       break
     }
   }
@@ -68,20 +68,20 @@ function mergeLinks(child, index, parent) {
   }
 
   // 1-3 slashes.
-  prev = siblings[start - 1]
-  if (punctuationOrSymbol(prev) && slashes.test(toString(prev))) {
+  previous = siblings[start - 1]
+  if (punctuationOrSymbol(previous) && slashes.test(toString(previous))) {
     start--
     nodes.unshift(siblings[start])
   }
 
   // URL protocol and colon.
-  prev = siblings[start - 1]
+  previous = siblings[start - 1]
   if (
-    punctuationOrSymbol(prev) &&
-    toString(prev) === ':' &&
+    punctuationOrSymbol(previous) &&
+    toString(previous) === ':' &&
     word(siblings[start - 2])
   ) {
-    nodes.unshift(siblings[start - 2], prev)
+    nodes.unshift(siblings[start - 2], previous)
     start -= 2
   }
 
