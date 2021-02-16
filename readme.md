@@ -104,9 +104,9 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/retextjs/retext-syntax-urls.svg
+[build-badge]: https://github.com/retextjs/retext-syntax-urls/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/retextjs/retext-syntax-urls
+[build]: https://github.com/retextjs/retext-syntax-urls/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-syntax-urls.svg
 
