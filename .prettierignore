@@ -1,5 +1,2 @@
 coverage/
-retext-syntax-urls.js
-retext-syntax-urls.min.js
-*.json
 *.md

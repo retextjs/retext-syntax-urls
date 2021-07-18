@@ -10,7 +10,7 @@ var retext = require('retext')
 var clean = require('unist-util-remove-position')
 var visit = require('unist-util-visit')
 var urls = require('..')
-var lists = require('./lists')
+var lists = require('./lists.js')
 
 var position = retext().use(urls)
 var noPosition = retext().use(off).use(urls)

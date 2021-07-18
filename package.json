@@ -49,13 +49,10 @@
     "xo": "^0.37.0"
   },
   "scripts": {
-    "format": "remark . -qfo && prettier . --write && xo --fix",
-    "build-bundle": "browserify . -s retextSyntaxUrls > retext-syntax-urls.js",
-    "build-mangle": "browserify . -s retextSyntaxUrls -p tinyify > retext-syntax-urls.min.js",
-    "build": "npm run build-bundle && npm run build-mangle",
-    "test-api": "node --conditions development test.js",
-    "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov node --conditions development test.js",
-    "test": "npm run format && npm run build && npm run test-coverage"
+    "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
+    "test-api": "node --conditions development test/index.js",
+    "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov node --conditions development test/index.js",
+    "test": "npm run format && npm run test-coverage"
   },
   "prettier": {
     "tabWidth": 2,
@@ -70,10 +67,7 @@
     "esnext": false,
     "rules": {
       "unicorn/no-array-callback-reference": "off"
-    },
-    "ignores": [
-      "retext-syntax-urls.js"
-    ]
+    }
   },
   "remarkConfig": {
     "plugins": [
