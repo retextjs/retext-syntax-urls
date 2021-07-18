@@ -13,6 +13,9 @@
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -24,24 +27,22 @@ npm install retext-syntax-urls
 Without `syntax-urls`:
 
 ```js
-var dictionary = require('dictionary-en-gb')
-var unified = require('unified')
-var english = require('retext-english')
-var stringify = require('retext-stringify')
-var spell = require('retext-spell')
-var urls = require('retext-syntax-urls')
-var report = require('vfile-reporter')
+import dictionary from 'dictionary-en-gb'
+import {reporter} from 'vfile-reporter'
+import unified from 'unified'
+import retextEnglish from 'retext-english'
+import retextSpell from 'retext-spell'
+import retextSyntaxUrls from 'retext-syntax-urls'
+import retextStringify from 'retext-stringify'
 
 unified()
-  .use(english)
-  .use(spell, dictionary)
-  .use(stringify)
-  .process(
-    'Have you read readme.md? Check it out: www.example.com/readme.md',
-    function(err, file) {
-      console.log(report(err || file))
-    }
-  )
+  .use(retextEnglish)
+  .use(retextSpell, dictionary)
+  .use(retextStringify)
+  .process('Have you read readme.md? Check it out: www.example.com/readme.md')
+  .then((file) => {
+    console.log(reporter(file))
+  })
 ```
 
 Yields:
@@ -57,9 +58,9 @@ Yields:
 With `syntax-urls`:
 
 ```diff
-   .use(english)
-+  .use(urls)
-   .use(spell, dictionary)
+   .use(retextEnglish)
++  .use(retextSyntaxUrls)
+   .use(retextSpell, dictionary)
 ```
 
 Yields:
@@ -70,7 +71,10 @@ no issues found
 
 ## API
 
-### `retext().use(urls)`
+This package exports no identifiers.
+The default export is `retextSyntaxUrls`.
+
+### `unified().use(retextSyntaxUrls)`
 
 Classify URLs, paths, and filenames as [**source**][source], which represent
 “external (ungrammatical) values” instead of natural language.
