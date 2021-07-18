@@ -1,16 +1,14 @@
-'use strict'
-
-var fs = require('fs')
-var path = require('path')
-var assert = require('assert')
-var test = require('tape')
-var not = require('not')
-var hidden = require('is-hidden')
-var retext = require('retext')
-var clean = require('unist-util-remove-position')
-var visit = require('unist-util-visit')
-var urls = require('..')
-var lists = require('./lists.js')
+import fs from 'fs'
+import path from 'path'
+import assert from 'assert'
+import test from 'tape'
+import not from 'not'
+import hidden from 'is-hidden'
+import retext from 'retext'
+import clean from 'unist-util-remove-position'
+import visit from 'unist-util-visit'
+import urls from '../index.js'
+import {correct, incorrect} from './lists.js'
 
 var position = retext().use(urls)
 var noPosition = retext().use(off).use(urls)
@@ -21,11 +19,9 @@ function off() {
 
 test('retext-syntax-urls', function (t) {
   t.test('Correct URLs', function (st) {
-    lists.correct.forEach(check)
-
-    st.end()
-
-    function check(url) {
+    let index = -1
+    while (++index < correct.length) {
+      const url = correct[index]
       st.doesNotThrow(function () {
         var tree = position.parse('Check out ' + url + ' it’s awesome!')
         var node = tree.children[0].children[0].children[4]
@@ -33,14 +29,15 @@ test('retext-syntax-urls', function (t) {
         assert.strictEqual(node.value, url, 'should have the correct value')
       }, url)
     }
+
+    st.end()
   })
 
   t.test('Incorrect URLs', function (st) {
-    lists.incorrect.forEach(check)
+    let index = -1
+    while (++index < incorrect.length) {
+      const url = incorrect[index]
 
-    st.end()
-
-    function check(url) {
       st.doesNotThrow(function () {
         var tree = position.parse('Check out ' + url + ' it’s bad!')
 
@@ -51,6 +48,8 @@ test('retext-syntax-urls', function (t) {
         }
       }, url)
     }
+
+    st.end()
   })
 
   t.end()
@@ -58,12 +57,11 @@ test('retext-syntax-urls', function (t) {
 
 test('fixtures', function (t) {
   var root = path.join('test', 'fixtures')
+  const files = fs.readdirSync(root).filter(not(hidden))
+  let index = -1
 
-  fs.readdirSync(root).filter(not(hidden)).forEach(check)
-
-  t.end()
-
-  function check(name) {
+  while (++index < files.length) {
+    const name = files[index]
     var input = fs.readFileSync(path.join(root, name, 'input.txt'))
     var base = JSON.parse(fs.readFileSync(path.join(root, name, 'output.json')))
 
@@ -74,4 +72,6 @@ test('fixtures', function (t) {
       name + ' w/o position'
     )
   }
+
+  t.end()
 })

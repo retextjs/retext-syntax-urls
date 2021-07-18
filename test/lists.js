@@ -1,6 +1,4 @@
-'use strict'
-
-exports.correct = [
+export const correct = [
   'http://foo.com/blah_blah',
   'http://foo.com/blah_blah/',
   'http://foo.com/blah_blah_(wikipedia)',
@@ -93,7 +91,7 @@ exports.correct = [
   'http://10.1.1.254'
 ]
 
-exports.incorrect = [
+export const incorrect = [
   '://',
   'http://',
   'http://.',

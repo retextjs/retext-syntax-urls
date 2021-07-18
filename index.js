@@ -1,11 +1,7 @@
-'use strict'
-
-var convert = require('unist-util-is/convert')
-var position = require('unist-util-position')
-var modifyChildren = require('unist-util-modify-children')
-var toString = require('nlcst-to-string')
-
-module.exports = urls
+import convert from 'unist-util-is/convert.js'
+import position from 'unist-util-position'
+import modifyChildren from 'unist-util-modify-children'
+import toString from 'nlcst-to-string'
 
 var word = convert('WordNode')
 var punctuationOrSymbol = convert(['PunctuationNode', 'SymbolNode'])
@@ -13,7 +9,7 @@ var applicable = convert(['WordNode', 'PunctuationNode', 'SymbolNode'])
 
 var slashes = /^\/{1,3}$/
 
-function urls() {
+export default function retextSyntaxUrls() {
   this.Parser.prototype.useFirst('tokenizeSentence', modifyChildren(mergeLinks))
 }
 
