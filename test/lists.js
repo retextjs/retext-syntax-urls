@@ -35,6 +35,7 @@ export const correct = [
   'http://1337.net',
   'http://a.b-c.de',
   'http://223.255.255.254',
+  'http://localhost:3000/home',
 
   // These are pseudo-correct URLs.
   'foo.com/blah_blah',

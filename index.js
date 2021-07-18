@@ -40,8 +40,12 @@ export default function retextSyntaxUrls() {
     const currentIndex = index
     /** @type {Node[]} */
     const nodes = [child]
+    const punc = toString(child)
 
-    if (!punctuationOrSymbol(child) || toString(child) !== '.') {
+    // Look for a dot.
+    // Note: we also allow `:` here (even though there’s no TLD) to allow
+    // `localhost` URLs.
+    if (!punctuationOrSymbol(child) || (punc !== '.' && punc !== ':')) {
       return
     }
 
@@ -65,6 +69,10 @@ export default function retextSyntaxUrls() {
       if (word(previous) && toString(siblings[start]) === 'www') {
         break
       }
+    }
+
+    if (punc === ':' && toString(nodes) !== 'localhost:') {
+      return
     }
 
     // Find following word/punctuation.
