@@ -3,11 +3,11 @@ import {pointStart, pointEnd} from 'unist-util-position'
 import {modifyChildren} from 'unist-util-modify-children'
 import {toString} from 'nlcst-to-string'
 
-var word = convert('WordNode')
-var punctuationOrSymbol = convert(['PunctuationNode', 'SymbolNode'])
-var applicable = convert(['WordNode', 'PunctuationNode', 'SymbolNode'])
+const word = convert('WordNode')
+const punctuationOrSymbol = convert(['PunctuationNode', 'SymbolNode'])
+const applicable = convert(['WordNode', 'PunctuationNode', 'SymbolNode'])
 
-var slashes = /^\/{1,3}$/
+const slashes = /^\/{1,3}$/
 
 export default function retextSyntaxUrls() {
   this.Parser.prototype.useFirst('tokenizeSentence', modifyChildren(mergeLinks))
@@ -15,20 +15,17 @@ export default function retextSyntaxUrls() {
 
 // eslint-disable-next-line complexity
 function mergeLinks(child, index, parent) {
-  var siblings = parent.children
-  var nodes = [child]
-  var start = index
-  var end = index
-  var currentIndex = index
-  var value
-  var initial
-  var final
-  var previous
-  var next
+  const siblings = parent.children
+  const nodes = [child]
+  let start = index
+  let end = index
+  const currentIndex = index
 
   if (!punctuationOrSymbol(child) || toString(child) !== '.') {
     return
   }
+
+  let previous
 
   // Find preceding word/punctuation.
   // Stop before slashes, break after `www`.
@@ -50,7 +47,7 @@ function mergeLinks(child, index, parent) {
   }
 
   // Find following word/punctuation.
-  next = siblings[end + 1]
+  let next = siblings[end + 1]
   while (applicable(next)) {
     end++
     nodes.push(next)
@@ -81,7 +78,7 @@ function mergeLinks(child, index, parent) {
     start -= 2
   }
 
-  value = null
+  let value = null
 
   // Remove the last node if it’s punctuation, unless it’s `/` or `)`.
   if (punctuationOrSymbol(siblings[end])) {
@@ -93,16 +90,16 @@ function mergeLinks(child, index, parent) {
     }
   }
 
-  child = {type: 'SourceNode', value: toString(nodes)}
-  initial = pointStart(nodes[0])
-  final = pointEnd(nodes[nodes.length - 1])
+  const replacement = {type: 'SourceNode', value: toString(nodes)}
+  const initial = pointStart(nodes[0])
+  const final = pointEnd(nodes[nodes.length - 1])
 
   if (initial.line && final.line) {
-    child.position = {start: initial, end: final}
+    replacement.position = {start: initial, end: final}
   }
 
   // Remove the nodes and insert a SourceNode.
-  siblings.splice(start, end - start + 1, child)
+  siblings.splice(start, end - start + 1, replacement)
 
   // Ignore the following full-stop: it’s not part of a link.
   if (value === '.') {

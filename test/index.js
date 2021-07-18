@@ -9,21 +9,21 @@ import {visit} from 'unist-util-visit'
 import retextSyntaxUrls from '../index.js'
 import {correct, incorrect} from './lists.js'
 
-var position = retext().use(retextSyntaxUrls)
-var noPosition = retext().use(off).use(retextSyntaxUrls)
+const position = retext().use(retextSyntaxUrls)
+const noPosition = retext()
+  .use(function () {
+    Object.assign(this.Parser.prototype, {position: false})
+  })
+  .use(retextSyntaxUrls)
 
-function off() {
-  this.Parser.prototype.position = false
-}
-
-test('retext-syntax-urls', function (t) {
-  t.test('Correct URLs', function (st) {
+test('retext-syntax-urls', (t) => {
+  t.test('Correct URLs', (st) => {
     let index = -1
     while (++index < correct.length) {
       const url = correct[index]
-      st.doesNotThrow(function () {
-        var tree = position.parse('Check out ' + url + ' it’s awesome!')
-        var node = tree.children[0].children[0].children[4]
+      st.doesNotThrow(() => {
+        const tree = position.parse('Check out ' + url + ' it’s awesome!')
+        const node = tree.children[0].children[0].children[4]
         assert.strictEqual(node.type, 'SourceNode', 'is a source node')
         assert.strictEqual(node.value, url, 'should have the correct value')
       }, url)
@@ -32,13 +32,13 @@ test('retext-syntax-urls', function (t) {
     st.end()
   })
 
-  t.test('Incorrect URLs', function (st) {
+  t.test('Incorrect URLs', (st) => {
     let index = -1
     while (++index < incorrect.length) {
       const url = incorrect[index]
 
-      st.doesNotThrow(function () {
-        var tree = position.parse('Check out ' + url + ' it’s bad!')
+      st.doesNotThrow(() => {
+        const tree = position.parse('Check out ' + url + ' it’s bad!')
 
         visit(tree, 'SourceNode', found)
 
@@ -54,8 +54,8 @@ test('retext-syntax-urls', function (t) {
   t.end()
 })
 
-test('fixtures', function (t) {
-  var root = path.join('test', 'fixtures')
+test('fixtures', (t) => {
+  const root = path.join('test', 'fixtures')
   const files = fs.readdirSync(root)
   let index = -1
 
@@ -64,8 +64,10 @@ test('fixtures', function (t) {
 
     if (isHidden(name)) continue
 
-    var input = fs.readFileSync(path.join(root, name, 'input.txt'))
-    var base = JSON.parse(fs.readFileSync(path.join(root, name, 'output.json')))
+    const input = fs.readFileSync(path.join(root, name, 'input.txt'))
+    const base = JSON.parse(
+      fs.readFileSync(path.join(root, name, 'output.json'))
+    )
 
     t.deepLooseEqual(position.parse(input), base, name + ' w/ position')
     t.deepLooseEqual(
