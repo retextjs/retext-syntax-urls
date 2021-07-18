@@ -1,3 +1,9 @@
+/**
+ * @typedef {import('unist').Node} Node
+ * @typedef {import('unist').Literal<string>} Literal
+ * @typedef {import('unist').Parent} Parent
+ */
+
 import fs from 'fs'
 import path from 'path'
 import assert from 'assert'
@@ -12,6 +18,8 @@ import {correct, incorrect} from './lists.js'
 const position = retext().use(retextSyntaxUrls)
 const noPosition = retext()
   .use(function () {
+    // @ts-expect-error: Assume attached.
+    // type-coverage:ignore-next-line
     Object.assign(this.Parser.prototype, {position: false})
   })
   .use(retextSyntaxUrls)
@@ -23,6 +31,8 @@ test('retext-syntax-urls', (t) => {
       const url = correct[index]
       st.doesNotThrow(() => {
         const tree = position.parse('Check out ' + url + ' it’s awesome!')
+        /** @type {Literal} */
+        // @ts-expect-error: fine.
         const node = tree.children[0].children[0].children[4]
         assert.strictEqual(node.type, 'SourceNode', 'is a source node')
         assert.strictEqual(node.value, url, 'should have the correct value')
@@ -40,11 +50,9 @@ test('retext-syntax-urls', (t) => {
       st.doesNotThrow(() => {
         const tree = position.parse('Check out ' + url + ' it’s bad!')
 
-        visit(tree, 'SourceNode', found)
-
-        function found(node) {
+        visit(tree, 'SourceNode', (/** @type {Literal} */ node) => {
           throw new Error('Found a source node for `' + node.value + '`')
-        }
+        })
       }, url)
     }
 
@@ -65,8 +73,9 @@ test('fixtures', (t) => {
     if (isHidden(name)) continue
 
     const input = fs.readFileSync(path.join(root, name, 'input.txt'))
+    /** @type {Node} */
     const base = JSON.parse(
-      fs.readFileSync(path.join(root, name, 'output.json'))
+      String(fs.readFileSync(path.join(root, name, 'output.json')))
     )
 
     t.deepLooseEqual(position.parse(input), base, name + ' w/ position')
