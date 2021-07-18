@@ -2,16 +2,15 @@ import fs from 'fs'
 import path from 'path'
 import assert from 'assert'
 import test from 'tape'
-import not from 'not'
-import hidden from 'is-hidden'
-import retext from 'retext'
-import clean from 'unist-util-remove-position'
-import visit from 'unist-util-visit'
-import urls from '../index.js'
+import {isHidden} from 'is-hidden'
+import {retext} from 'retext'
+import {removePosition} from 'unist-util-remove-position'
+import {visit} from 'unist-util-visit'
+import retextSyntaxUrls from '../index.js'
 import {correct, incorrect} from './lists.js'
 
-var position = retext().use(urls)
-var noPosition = retext().use(off).use(urls)
+var position = retext().use(retextSyntaxUrls)
+var noPosition = retext().use(off).use(retextSyntaxUrls)
 
 function off() {
   this.Parser.prototype.position = false
@@ -57,18 +56,21 @@ test('retext-syntax-urls', function (t) {
 
 test('fixtures', function (t) {
   var root = path.join('test', 'fixtures')
-  const files = fs.readdirSync(root).filter(not(hidden))
+  const files = fs.readdirSync(root)
   let index = -1
 
   while (++index < files.length) {
     const name = files[index]
+
+    if (isHidden(name)) continue
+
     var input = fs.readFileSync(path.join(root, name, 'input.txt'))
     var base = JSON.parse(fs.readFileSync(path.join(root, name, 'output.json')))
 
     t.deepLooseEqual(position.parse(input), base, name + ' w/ position')
     t.deepLooseEqual(
       noPosition.parse(input),
-      clean(base, true),
+      removePosition(base, true),
       name + ' w/o position'
     )
   }
