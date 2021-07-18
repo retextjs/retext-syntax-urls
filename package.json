@@ -31,10 +31,10 @@
     "index.js"
   ],
   "dependencies": {
-    "nlcst-to-string": "^2.0.0",
-    "unist-util-is": "^4.0.0",
-    "unist-util-modify-children": "^1.1.1",
-    "unist-util-position": "^3.0.0"
+    "nlcst-to-string": "^3.0.0",
+    "unist-util-is": "^5.0.0",
+    "unist-util-modify-children": "^3.0.0",
+    "unist-util-position": "^4.0.0"
   },
   "devDependencies": {
     "browserify": "^17.0.0",

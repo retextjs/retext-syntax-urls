@@ -1,7 +1,7 @@
-import convert from 'unist-util-is/convert.js'
-import position from 'unist-util-position'
-import modifyChildren from 'unist-util-modify-children'
-import toString from 'nlcst-to-string'
+import {convert} from 'unist-util-is'
+import {pointStart, pointEnd} from 'unist-util-position'
+import {modifyChildren} from 'unist-util-modify-children'
+import {toString} from 'nlcst-to-string'
 
 var word = convert('WordNode')
 var punctuationOrSymbol = convert(['PunctuationNode', 'SymbolNode'])
@@ -94,8 +94,8 @@ function mergeLinks(child, index, parent) {
   }
 
   child = {type: 'SourceNode', value: toString(nodes)}
-  initial = position.start(nodes[0])
-  final = position.end(nodes[nodes.length - 1])
+  initial = pointStart(nodes[0])
+  final = pointEnd(nodes[nodes.length - 1])
 
   if (initial.line && final.line) {
     child.position = {start: initial, end: final}
