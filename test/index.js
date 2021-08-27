@@ -1,12 +1,11 @@
 /**
- * @typedef {import('unist').Node} Node
- * @typedef {import('unist').Literal<string>} Literal
- * @typedef {import('unist').Parent} Parent
+ * @typedef {import('nlcst').Root} Root
+ * @typedef {import('nlcst').Source} Source
  */
 
-import fs from 'fs'
-import path from 'path'
-import assert from 'assert'
+import fs from 'node:fs'
+import path from 'node:path'
+import assert from 'node:assert'
 import test from 'tape'
 import {isHidden} from 'is-hidden'
 import {retext} from 'retext'
@@ -31,7 +30,7 @@ test('retext-syntax-urls', (t) => {
       const url = correct[index]
       st.doesNotThrow(() => {
         const tree = position.parse('Check out ' + url + ' it’s awesome!')
-        /** @type {Literal} */
+        /** @type {Source} */
         // @ts-expect-error: fine.
         const node = tree.children[0].children[0].children[4]
         assert.strictEqual(node.type, 'SourceNode', 'is a source node')
@@ -50,7 +49,7 @@ test('retext-syntax-urls', (t) => {
       st.doesNotThrow(() => {
         const tree = position.parse('Check out ' + url + ' it’s bad!')
 
-        visit(tree, 'SourceNode', (/** @type {Literal} */ node) => {
+        visit(tree, 'SourceNode', (node) => {
           throw new Error('Found a source node for `' + node.value + '`')
         })
       }, url)
@@ -73,7 +72,7 @@ test('fixtures', (t) => {
     if (isHidden(name)) continue
 
     const input = fs.readFileSync(path.join(root, name, 'input.txt'))
-    /** @type {Node} */
+    /** @type {Root} */
     const base = JSON.parse(
       String(fs.readFileSync(path.join(root, name, 'output.json')))
     )

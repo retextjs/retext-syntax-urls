@@ -1,11 +1,13 @@
-import {convert} from 'unist-util-is'
+/**
+ * @typedef {import('nlcst').Root} Root
+ * @typedef {import('nlcst').Sentence} Sentence
+ * @typedef {import('nlcst').Source} Source
+ * @typedef {import('nlcst').SentenceContent} SentenceContent
+ */
+
 import {pointStart, pointEnd} from 'unist-util-position'
 import {modifyChildren} from 'unist-util-modify-children'
 import {toString} from 'nlcst-to-string'
-
-const word = convert('WordNode')
-const punctuationOrSymbol = convert(['PunctuationNode', 'SymbolNode'])
-const applicable = convert(['WordNode', 'PunctuationNode', 'SymbolNode'])
 
 const slashes = /^\/{1,3}$/
 
@@ -13,23 +15,17 @@ const slashes = /^\/{1,3}$/
  * Plugin to classify url-like values (`example.com`, `index.html`,
  * `www.alpha.bravo`) as syntax instead of natural language.
  *
- * @type {import('unified').Plugin<[]>}
+ * @type {import('unified').Plugin<[], Root>}
  */
 export default function retextSyntaxUrls() {
-  /**
-   * @typedef {import('unist').Node} Node
-   * @typedef {import('unist').Literal<string>} Literal
-   * @typedef {import('unist').Parent} Parent
-   */
-
   // @ts-expect-error: Assume attached.
   // type-coverage:ignore-next-line
   this.Parser.prototype.useFirst('tokenizeSentence', modifyChildren(mergeLinks))
 
   /**
-   * @param {Node} child
+   * @param {SentenceContent} child
    * @param {number} index
-   * @param {Parent} parent
+   * @param {Sentence} parent
    * @returns {number|void}
    */
   // eslint-disable-next-line complexity
@@ -38,26 +34,35 @@ export default function retextSyntaxUrls() {
     let start = index
     let end = index
     const currentIndex = index
-    /** @type {Node[]} */
+    /** @type {SentenceContent[]} */
     const nodes = [child]
     const punc = toString(child)
 
     // Look for a dot.
     // Note: we also allow `:` here (even though there’s no TLD) to allow
     // `localhost` URLs.
-    if (!punctuationOrSymbol(child) || (punc !== '.' && punc !== ':')) {
+    if (
+      !(child.type === 'PunctuationNode' || child.type === 'SymbolNode') ||
+      (punc !== '.' && punc !== ':')
+    ) {
       return
     }
 
-    /** @type {Node?} */
+    /** @type {SentenceContent|undefined} */
     let previous
 
     // Find preceding word/punctuation.
     // Stop before slashes, break after `www`.
     while ((previous = siblings[start - 1])) {
       if (
-        !applicable(previous) ||
-        (punctuationOrSymbol(previous) && slashes.test(toString(previous)))
+        !(
+          previous.type === 'WordNode' ||
+          previous.type === 'PunctuationNode' ||
+          previous.type === 'SymbolNode'
+        ) ||
+        ((previous.type === 'PunctuationNode' ||
+          previous.type === 'SymbolNode') &&
+          slashes.test(toString(previous)))
       ) {
         break
       }
@@ -66,7 +71,7 @@ export default function retextSyntaxUrls() {
 
       nodes.unshift(siblings[start])
 
-      if (word(previous) && toString(siblings[start]) === 'www') {
+      if (previous.type === 'WordNode' && toString(siblings[start]) === 'www') {
         break
       }
     }
@@ -77,7 +82,11 @@ export default function retextSyntaxUrls() {
 
     // Find following word/punctuation.
     let next = siblings[end + 1]
-    while (applicable(next)) {
+    while (
+      next.type === 'WordNode' ||
+      next.type === 'PunctuationNode' ||
+      next.type === 'SymbolNode'
+    ) {
       end++
       nodes.push(next)
       next = siblings[end + 1]
@@ -91,7 +100,10 @@ export default function retextSyntaxUrls() {
 
     // 1-3 slashes.
     previous = siblings[start - 1]
-    if (punctuationOrSymbol(previous) && slashes.test(toString(previous))) {
+    if (
+      (previous.type === 'PunctuationNode' || previous.type === 'SymbolNode') &&
+      slashes.test(toString(previous))
+    ) {
       start--
       nodes.unshift(siblings[start])
     }
@@ -99,9 +111,9 @@ export default function retextSyntaxUrls() {
     // URL protocol and colon.
     previous = siblings[start - 1]
     if (
-      punctuationOrSymbol(previous) &&
+      (previous.type === 'PunctuationNode' || previous.type === 'SymbolNode') &&
       toString(previous) === ':' &&
-      word(siblings[start - 2])
+      siblings[start - 2].type === 'WordNode'
     ) {
       nodes.unshift(siblings[start - 2], previous)
       start -= 2
@@ -111,7 +123,10 @@ export default function retextSyntaxUrls() {
     let value
 
     // Remove the last node if it’s punctuation, unless it’s `/` or `)`.
-    if (punctuationOrSymbol(siblings[end])) {
+    if (
+      siblings[end].type === 'PunctuationNode' ||
+      siblings[end].type === 'SymbolNode'
+    ) {
       value = toString(siblings[end])
 
       if (value !== '/' && value !== ')') {
@@ -120,7 +135,7 @@ export default function retextSyntaxUrls() {
       }
     }
 
-    /** @type {Literal} */
+    /** @type {Source} */
     const replacement = {type: 'SourceNode', value: toString(nodes)}
     const initial = pointStart(nodes[0])
     const final = pointEnd(nodes[nodes.length - 1])
