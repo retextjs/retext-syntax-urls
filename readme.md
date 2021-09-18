@@ -29,7 +29,7 @@ Without `syntax-urls`:
 ```js
 import dictionary from 'dictionary-en-gb'
 import {reporter} from 'vfile-reporter'
-import unified from 'unified'
+import {unified} from 'unified'
 import retextEnglish from 'retext-english'
 import retextSpell from 'retext-spell'
 import retextSyntaxUrls from 'retext-syntax-urls'
