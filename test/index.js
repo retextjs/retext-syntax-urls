@@ -24,11 +24,11 @@ const noPosition = retext()
   .use(retextSyntaxUrls)
 
 test('retext-syntax-urls', (t) => {
-  t.test('Correct URLs', (st) => {
+  t.test('Correct URLs', (t) => {
     let index = -1
     while (++index < correct.length) {
       const url = correct[index]
-      st.doesNotThrow(() => {
+      t.doesNotThrow(() => {
         const tree = position.parse('Check out ' + url + ' it’s awesome!')
         /** @type {Source} */
         // @ts-expect-error: fine.
@@ -38,15 +38,15 @@ test('retext-syntax-urls', (t) => {
       }, url)
     }
 
-    st.end()
+    t.end()
   })
 
-  t.test('Incorrect URLs', (st) => {
+  t.test('Incorrect URLs', (t) => {
     let index = -1
     while (++index < incorrect.length) {
       const url = incorrect[index]
 
-      st.doesNotThrow(() => {
+      t.doesNotThrow(() => {
         const tree = position.parse('Check out ' + url + ' it’s bad!')
 
         visit(tree, 'SourceNode', (node) => {
@@ -55,8 +55,33 @@ test('retext-syntax-urls', (t) => {
       }, url)
     }
 
-    st.end()
+    t.end()
   })
+
+  t.deepEqual(
+    noPosition.parse('More.'),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'More'}]
+                },
+                {type: 'PunctuationNode', value: '.'}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support a sentence followed by eof'
+  )
 
   t.end()
 })

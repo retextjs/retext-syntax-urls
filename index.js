@@ -83,9 +83,10 @@ export default function retextSyntaxUrls() {
     // Find following word/punctuation.
     let next = siblings[end + 1]
     while (
-      next.type === 'WordNode' ||
-      next.type === 'PunctuationNode' ||
-      next.type === 'SymbolNode'
+      next &&
+      (next.type === 'WordNode' ||
+        next.type === 'PunctuationNode' ||
+        next.type === 'SymbolNode')
     ) {
       end++
       nodes.push(next)
