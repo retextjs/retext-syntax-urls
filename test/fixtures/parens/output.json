@@ -172,12 +172,28 @@
             },
             {
               "type": "SourceNode",
-              "value": "www.example.com)",
+              "value": "www.example.com",
               "position": {
                 "start": {
                   "line": 1,
                   "column": 15,
                   "offset": 14
+                },
+                "end": {
+                  "line": 1,
+                  "column": 30,
+                  "offset": 29
+                }
+              }
+            },
+            {
+              "type": "PunctuationNode",
+              "value": ")",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 30,
+                  "offset": 29
                 },
                 "end": {
                   "line": 1,

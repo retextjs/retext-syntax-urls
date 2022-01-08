@@ -8,6 +8,7 @@
 import {pointStart, pointEnd} from 'unist-util-position'
 import {modifyChildren} from 'unist-util-modify-children'
 import {toString} from 'nlcst-to-string'
+import {ccount} from 'ccount'
 
 const slashes = /^\/{1,3}$/
 
@@ -102,6 +103,7 @@ export default function retextSyntaxUrls() {
     // 1-3 slashes.
     previous = siblings[start - 1]
     if (
+      previous &&
       (previous.type === 'PunctuationNode' || previous.type === 'SymbolNode') &&
       slashes.test(toString(previous))
     ) {
@@ -112,6 +114,7 @@ export default function retextSyntaxUrls() {
     // URL protocol and colon.
     previous = siblings[start - 1]
     if (
+      previous &&
       (previous.type === 'PunctuationNode' || previous.type === 'SymbolNode') &&
       toString(previous) === ':' &&
       siblings[start - 2].type === 'WordNode'
@@ -130,7 +133,15 @@ export default function retextSyntaxUrls() {
     ) {
       value = toString(siblings[end])
 
-      if (value !== '/' && value !== ')') {
+      if (value === ')') {
+        const value = toString(nodes)
+        // If there are more closing parens than opening ones, it’s likely
+        // that the paren doesn’t belong to the URL.
+        if (ccount(value, '(') < ccount(value, ')')) {
+          end--
+          nodes.pop()
+        }
+      } else if (value !== '/') {
         end--
         nodes.pop()
       }
