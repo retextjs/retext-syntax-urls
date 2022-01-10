@@ -1,6 +1,6 @@
 {
   "name": "retext-syntax-urls",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "retext plugin to classify url-like values as syntax, not natural language",
   "license": "MIT",
   "keywords": [
