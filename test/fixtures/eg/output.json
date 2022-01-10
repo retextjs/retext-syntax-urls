@@ -8,8 +8,8 @@
           "type": "SentenceNode",
           "children": [
             {
-              "type": "SourceNode",
-              "value": "(e.g",
+              "type": "PunctuationNode",
+              "value": "(",
               "position": {
                 "start": {
                   "line": 1,
@@ -18,19 +18,84 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 5,
-                  "offset": 4
+                  "column": 2,
+                  "offset": 1
                 }
               }
             },
             {
-              "type": "PunctuationNode",
-              "value": ".",
+              "type": "WordNode",
+              "children": [
+                {
+                  "type": "TextNode",
+                  "value": "e",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 2,
+                      "offset": 1
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 3,
+                      "offset": 2
+                    }
+                  }
+                },
+                {
+                  "type": "PunctuationNode",
+                  "value": ".",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 3,
+                      "offset": 2
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 4,
+                      "offset": 3
+                    }
+                  }
+                },
+                {
+                  "type": "TextNode",
+                  "value": "g",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 4,
+                      "offset": 3
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 5,
+                      "offset": 4
+                    }
+                  }
+                },
+                {
+                  "type": "PunctuationNode",
+                  "value": ".",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 5,
+                      "offset": 4
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 6,
+                      "offset": 5
+                    }
+                  }
+                }
+              ],
               "position": {
                 "start": {
                   "line": 1,
-                  "column": 5,
-                  "offset": 4
+                  "column": 2,
+                  "offset": 1
                 },
                 "end": {
                   "line": 1,
@@ -57,7 +122,7 @@
             },
             {
               "type": "SourceNode",
-              "value": "dmeshuang@yahoo.com",
+              "value": "xxxxxxxxx@yahoo.com",
               "position": {
                 "start": {
                   "line": 1,

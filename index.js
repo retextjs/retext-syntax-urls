@@ -147,6 +147,11 @@ export default function retextSyntaxUrls() {
       }
     }
 
+    // Exit if the TLD is only 1 character long.
+    if (toString(siblings.slice(index + 1, end + 1)).length === 1) {
+      return
+    }
+
     /** @type {Source} */
     const replacement = {type: 'SourceNode', value: toString(nodes)}
     const initial = pointStart(nodes[0])
