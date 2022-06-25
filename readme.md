@@ -8,23 +8,68 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**retext**][retext] plugin to classify url-like values (`example.com`,
-`index.html`, `www.alpha.bravo`) as [syntax][source], not natural language.
+**[retext][]** plugin to classify URL-like values as syntax instead of natural
+language.
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`unified().use(retextSyntaxUrls)`](#unifieduseretextsyntaxurls)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package is a [unified][] ([retext][]) plugin to classify URL-like values
+(such as `example.com`, `index.html`, or `www.alpha.bravo`) as
+[`SourceNode`][source] instead of natural language.
+That node represent “external (ungrammatical) values” instead of natural
+language, which hides URLs and paths from [`retext-spell`][retext-spell],
+[`retext-readability`][retext-readability],
+[`retext-equality`][retext-equality], and other things that check words.
+
+## When should I use this?
+
+You can use this plugin any time there are URLs and paths in prose, that are
+(incorrectly) warned about by linting plugins.
+
+> **Note**: this is not a markdown parser.
+> Use `unified` with [`remark-parse`][remark-parse] and
+> [`remark-retext`][remark-retext] to “hide” other syntax.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, 16.0+, or 18.0+), install with [npm][]:
 
 ```sh
 npm install retext-syntax-urls
 ```
 
+In Deno with [`esm.sh`][esmsh]:
+
+```js
+import retextSyntaxUrls from 'https://esm.sh/retext-syntax-urls@3'
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import retextSyntaxUrls from 'https://esm.sh/retext-syntax-urls@3?bundle'
+</script>
+```
+
 ## Use
 
-Without `syntax-urls`:
+Without `retext-syntax-urls`:
 
 ```js
 import dictionary from 'dictionary-en-gb'
@@ -35,14 +80,13 @@ import retextSpell from 'retext-spell'
 import retextSyntaxUrls from 'retext-syntax-urls'
 import retextStringify from 'retext-stringify'
 
-unified()
+const file = await unified()
   .use(retextEnglish)
   .use(retextSpell, dictionary)
   .use(retextStringify)
   .process('Have you read readme.md? Check it out: www.example.com/readme.md')
-  .then((file) => {
-    console.log(reporter(file))
-  })
+
+console.log(reporter(file))
 ```
 
 Yields:
@@ -55,7 +99,7 @@ Yields:
 ⚠ 3 warnings
 ```
 
-With `syntax-urls`:
+With `retext-syntax-urls`:
 
 ```diff
    .use(retextEnglish)
@@ -76,21 +120,32 @@ The default export is `retextSyntaxUrls`.
 
 ### `unified().use(retextSyntaxUrls)`
 
-Classify URLs, paths, and filenames as [**source**][source], which represent
-“external (ungrammatical) values” instead of natural language.
-This hides them from [`retext-spell`][spell],
-[`retext-readability`][readability], [`retext-equality`][equality], and more.
+Classify URL-like values as syntax instead of natural language.
+
+There are no options.
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It exports no additional types.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
 
-*   [`retext-syntax-mentions`][syntax-mentions]
-    — Classify [**@mentions**](https://github.com/blog/821) as syntax
-*   [`retext-spell`][spell]
-    — Check spelling
-*   [`retext-readability`][readability]
-    — Check readability
-*   [`retext-equality`][equality]
-    — Check possible insensitive, inconsiderate language
+*   [`retext-syntax-mentions`][retext-syntax-mentions]
+    — classify [**@mentions**](https://github.com/blog/821) as syntax
+*   [`retext-spell`][retext-spell]
+    — check spelling
+*   [`retext-readability`][retext-readability]
+    — check readability
+*   [`retext-equality`][retext-equality]
+    — check possible insensitive, inconsiderate language
 
 ## Contribute
 
@@ -136,26 +191,38 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
 [health]: https://github.com/retextjs/.github
 
-[contributing]: https://github.com/retextjs/.github/blob/HEAD/contributing.md
+[contributing]: https://github.com/retextjs/.github/blob/main/contributing.md
 
-[support]: https://github.com/retextjs/.github/blob/HEAD/support.md
+[support]: https://github.com/retextjs/.github/blob/main/support.md
 
-[coc]: https://github.com/retextjs/.github/blob/HEAD/code-of-conduct.md
+[coc]: https://github.com/retextjs/.github/blob/main/code-of-conduct.md
 
 [license]: license
 
 [author]: https://wooorm.com
 
+[unified]: https://github.com/unifiedjs/unified
+
 [retext]: https://github.com/retextjs/retext
 
 [source]: https://github.com/syntax-tree/nlcst#source
 
-[spell]: https://github.com/retextjs/retext-spell
+[remark-parse]: https://github.com/remarkjs/remark/tree/main/packages/remark-parse
 
-[readability]: https://github.com/retextjs/retext-readability
+[remark-retext]: https://github.com/remarkjs/remark-retext
 
-[equality]: https://github.com/retextjs/retext-equality
+[retext-spell]: https://github.com/retextjs/retext-spell
 
-[syntax-mentions]: https://github.com/retextjs/retext-syntax-mentions
+[retext-readability]: https://github.com/retextjs/retext-readability
+
+[retext-equality]: https://github.com/retextjs/retext-equality
+
+[retext-syntax-mentions]: https://github.com/retextjs/retext-syntax-mentions
