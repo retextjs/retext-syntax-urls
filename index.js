@@ -35,7 +35,7 @@ export default function retextSyntaxUrls() {
     let start = index
     let end = index
     const currentIndex = index
-    /** @type {SentenceContent[]} */
+    /** @type {Array<SentenceContent>} */
     const nodes = [child]
     const punc = toString(child)
 
