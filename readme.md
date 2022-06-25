@@ -40,7 +40,7 @@ language, which hides URLs and paths from [`retext-spell`][retext-spell],
 You can use this plugin any time there are URLs and paths in prose, that are
 (incorrectly) warned about by linting plugins.
 
-> **Note**: this is not a markdown parser.
+> 👉 **Note**: this is not a markdown parser.
 > Use `unified` with [`remark-parse`][remark-parse] and
 > [`remark-retext`][remark-retext] to “hide” other syntax.
 
