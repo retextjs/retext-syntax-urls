@@ -7,16 +7,16 @@ import fs from 'node:fs/promises'
 import test from 'node:test'
 import {isHidden} from 'is-hidden'
 import {retext} from 'retext'
+import retextSyntaxUrls from 'retext-syntax-urls'
 import {removePosition} from 'unist-util-remove-position'
 import {visit} from 'unist-util-visit'
-import retextSyntaxUrls from '../index.js'
 import {correct, incorrect} from './lists.js'
 
 const processor = retext().use(retextSyntaxUrls)
 
 test('retext-syntax-urls', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('retext-syntax-urls')).sort(), [
       'default'
     ])
   })
