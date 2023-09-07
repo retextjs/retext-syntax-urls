@@ -15,6 +15,12 @@ import {correct, incorrect} from './lists.js'
 const processor = retext().use(retextSyntaxUrls)
 
 test('retext-syntax-urls', async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
+      'default'
+    ])
+  })
+
   await t.test('should work (correct urls)', async function (t) {
     let index = -1
 
@@ -42,7 +48,7 @@ test('retext-syntax-urls', async function (t) {
 
       await t.test(url, async function () {
         const tree = processor.parse('Check out ' + url + ' it’s bad!')
-        visit(tree, 'SourceNode', (node) => {
+        visit(tree, 'SourceNode', function (node) {
           throw new Error('Found a source node for `' + node.value + '`')
         })
       })
