@@ -1,12 +1,10 @@
 /**
  * @typedef {import('nlcst').Root} Root
- * @typedef {import('nlcst').Source} Source
  */
 
-import fs from 'node:fs'
-import path from 'node:path'
-import assert from 'node:assert'
-import test from 'tape'
+import assert from 'node:assert/strict'
+import fs from 'node:fs/promises'
+import test from 'node:test'
 import {isHidden} from 'is-hidden'
 import {retext} from 'retext'
 import {removePosition} from 'unist-util-remove-position'
@@ -14,49 +12,49 @@ import {visit} from 'unist-util-visit'
 import retextSyntaxUrls from '../index.js'
 import {correct, incorrect} from './lists.js'
 
-const position = retext().use(retextSyntaxUrls)
+const processor = retext().use(retextSyntaxUrls)
 
-test('retext-syntax-urls', (t) => {
-  t.test('Correct URLs', (t) => {
+test('retext-syntax-urls', async function (t) {
+  await t.test('should work (correct urls)', async function (t) {
     let index = -1
+
     while (++index < correct.length) {
       const url = correct[index]
-      t.doesNotThrow(() => {
-        const tree = position.parse('Check out ' + url + ' it’s awesome!')
-        /** @type {Source} */
-        // @ts-expect-error: fine.
-        const node = tree.children[0].children[0].children[4]
-        assert.strictEqual(node.type, 'SourceNode', 'is a source node')
-        assert.strictEqual(node.value, url, 'should have the correct value')
-      }, url)
-    }
 
-    t.end()
+      await t.test(url, async function () {
+        const tree = processor.parse('Check out ' + url + ' it’s awesome!')
+        const paragraph = tree.children[0]
+        assert(paragraph?.type === 'ParagraphNode')
+        const sentence = paragraph.children[0]
+        assert(sentence?.type === 'SentenceNode')
+        const source = sentence.children[4]
+        assert(source?.type === 'SourceNode')
+        assert.equal(source.value, url)
+      })
+    }
   })
 
-  t.test('Incorrect URLs', (t) => {
+  await t.test('should work (incorrect urls)', async function (t) {
     let index = -1
+
     while (++index < incorrect.length) {
       const url = incorrect[index]
 
-      t.doesNotThrow(() => {
-        const tree = position.parse('Check out ' + url + ' it’s bad!')
-
+      await t.test(url, async function () {
+        const tree = processor.parse('Check out ' + url + ' it’s bad!')
         visit(tree, 'SourceNode', (node) => {
           throw new Error('Found a source node for `' + node.value + '`')
         })
-      }, url)
+      })
     }
-
-    t.end()
   })
 
-  const tree = position.parse('More.')
-  removePosition(tree, {force: true})
+  await t.test('should support a sentence followed by eof', async function () {
+    const tree = processor.parse('More.')
 
-  t.deepEqual(
-    tree,
-    {
+    removePosition(tree, {force: true})
+
+    assert.deepEqual(tree, {
       type: 'RootNode',
       children: [
         {
@@ -75,31 +73,29 @@ test('retext-syntax-urls', (t) => {
           ]
         }
       ]
-    },
-    'should support a sentence followed by eof'
-  )
-
-  t.end()
+    })
+  })
 })
 
-test('fixtures', (t) => {
-  const root = path.join('test', 'fixtures')
-  const files = fs.readdirSync(root)
+test('fixtures', async function (t) {
+  const root = new URL('fixtures/', import.meta.url)
+  const folders = await fs.readdir(root)
   let index = -1
 
-  while (++index < files.length) {
-    const name = files[index]
+  while (++index < folders.length) {
+    const folder = folders[index]
 
-    if (isHidden(name)) continue
+    if (isHidden(folder)) continue
 
-    const input = fs.readFileSync(path.join(root, name, 'input.txt'))
-    /** @type {Root} */
-    const base = JSON.parse(
-      String(fs.readFileSync(path.join(root, name, 'output.json')))
-    )
+    await t.test(folder, async function () {
+      const folderUrl = new URL(folder + '/', root)
+      const input = await fs.readFile(new URL('input.txt', folderUrl))
+      /** @type {Root} */
+      const base = JSON.parse(
+        String(await fs.readFile(new URL('output.json', folderUrl)))
+      )
 
-    t.deepLooseEqual(position.parse(input), base, name + ' w/ position')
+      assert.deepEqual(processor.parse(input), base)
+    })
   }
-
-  t.end()
 })
