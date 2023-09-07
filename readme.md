@@ -56,14 +56,14 @@ npm install retext-syntax-urls
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import retextSyntaxUrls from 'https://esm.sh/retext-syntax-urls@3'
+import retextSyntaxUrls from 'https://esm.sh/retext-syntax-urls@4'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import retextSyntaxUrls from 'https://esm.sh/retext-syntax-urls@3?bundle'
+  import retextSyntaxUrls from 'https://esm.sh/retext-syntax-urls@4?bundle'
 </script>
 ```
 
