@@ -15,13 +15,6 @@ import retextSyntaxUrls from '../index.js'
 import {correct, incorrect} from './lists.js'
 
 const position = retext().use(retextSyntaxUrls)
-const noPosition = retext()
-  .use(function () {
-    // @ts-expect-error: Assume attached.
-    // type-coverage:ignore-next-line
-    Object.assign(this.Parser.prototype, {position: false})
-  })
-  .use(retextSyntaxUrls)
 
 test('retext-syntax-urls', (t) => {
   t.test('Correct URLs', (t) => {
@@ -58,8 +51,11 @@ test('retext-syntax-urls', (t) => {
     t.end()
   })
 
+  const tree = position.parse('More.')
+  removePosition(tree, {force: true})
+
   t.deepEqual(
-    noPosition.parse('More.'),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -103,11 +99,6 @@ test('fixtures', (t) => {
     )
 
     t.deepLooseEqual(position.parse(input), base, name + ' w/ position')
-    t.deepLooseEqual(
-      noPosition.parse(input),
-      removePosition(base, true),
-      name + ' w/o position'
-    )
   }
 
   t.end()

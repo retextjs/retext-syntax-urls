@@ -19,9 +19,14 @@ const slashes = /^\/{1,3}$/
  * @type {import('unified').Plugin<[], Root>}
  */
 export default function retextSyntaxUrls() {
-  // @ts-expect-error: Assume attached.
-  // type-coverage:ignore-next-line
-  this.Parser.prototype.useFirst('tokenizeSentence', modifyChildren(mergeLinks))
+  // Register extension for parser.
+  let sentence = this.data('nlcstSentenceExtensions')
+
+  if (!sentence) {
+    this.data('nlcstSentenceExtensions', (sentence = []))
+  }
+
+  sentence.push(modifyChildren(mergeLinks))
 
   /**
    * @param {SentenceContent} child
@@ -157,7 +162,7 @@ export default function retextSyntaxUrls() {
     const initial = pointStart(nodes[0])
     const final = pointEnd(nodes[nodes.length - 1])
 
-    if (initial.line && final.line) {
+    if (initial && final) {
       replacement.position = {start: initial, end: final}
     }
 
